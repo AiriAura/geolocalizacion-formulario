@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Capturar Geolocalización</title>
+</head>
+<body>
+
+  <h2>Obtener tu Ubicación Actual</h2>
+  <p id="location"></p>
+
+  <script>
+    function getLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition, showError);
+      } else {
+        document.getElementById("location").innerHTML = "La geolocalización no es soportada por este navegador.";
+      }
+    }
+
+    function showPosition(position) {
+      var lat = position.coords.latitude;
+      var lon = position.coords.longitude;
+
+      // Redirigir al formulario de Google con latitud y longitud
+      var formURL = "https://docs.google.com/forms/d/e/1FAIpQLScpNaaRFEoQMba7IJv_-fdQW8B9Aq-DQ-ZgLwzXEQ5GHabQeg/viewform?usp=pp_url&entry.390576039=" + lat + "&entry.2003114122=" + lon;
+
+      // Cambia FORM_ID y los IDs de las entradas por los valores correctos de tu formulario
+      window.location.href = formURL;
+    }
+
+    function showError(error) {
+      switch(error.code) {
+        case error.PERMISSION_DENIED:
+          document.getElementById("location").innerHTML = "El usuario denegó el permiso de geolocalización.";
+          break;
+        case error.POSITION_UNAVAILABLE:
+          document.getElementById("location").innerHTML = "La información de la ubicación no está disponible.";
+          break;
+        case error.TIMEOUT:
+          document.getElementById("location").innerHTML = "La solicitud para obtener la ubicación ha expirado.";
+          break;
+        case error.UNKNOWN_ERROR:
+          document.getElementById("location").innerHTML = "Ha ocurrido un error desconocido.";
+          break;
+      }
+    }
+
+    // Llamar a la función al cargar la página
+    getLocation();
+  </script>
+
+</body>
+</html>
